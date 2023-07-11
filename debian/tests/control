@@ -1,0 +1,5 @@
+Tests: basic
+Restrictions: needs-root
+
+Tests: updatedb
+Restrictions: needs-root

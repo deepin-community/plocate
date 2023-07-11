@@ -1,0 +1,9 @@
+#! /bin/sh
+set -e
+
+# Just check that we can find ourselves after a basic install.
+updatedb.plocate
+plocate plocate | grep -q plocate
+
+# A negative test.
+! plocate DOES_NOT_EXIST | grep -q DOES_NOT_EXIST
