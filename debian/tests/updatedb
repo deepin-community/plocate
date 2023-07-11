@@ -1,0 +1,34 @@
+#! /bin/sh
+set -e
+
+adduser --disabled-password --gecos testuser testuser
+
+# /tmp (and tmpfs) is normally pruned out, and $AUTOPKGTEST_TMP lives there,
+# so we need to fix that.
+sed -i s/tmp/disabled_tmp/g /etc/updatedb.conf
+
+# Before, we should not find anything (and the return value should
+# reflect that).
+updatedb.plocate 
+! su testuser -c 'plocate PLOCATE_TEST_FILE'
+! su testuser -c 'plocate PLOCATE_TEST_FILE' | grep -q PLOCATE_TEST_FILE
+
+# Create one visible file, and one invisible file.
+chmod o+rx $AUTOPKGTEST_TMP
+touch $AUTOPKGTEST_TMP/PLOCATE_TEST_FILE
+mkdir $AUTOPKGTEST_TMP/secret-dir
+touch $AUTOPKGTEST_TMP/secret-dir/PLOCATE_INVISIBLE_TEST_FILE
+chmod 0700 $AUTOPKGTEST_TMP/secret-dir
+
+# Now run updatedb again.
+updatedb.plocate 
+
+# Now one file should be visible, and the other still invisible.
+su testuser -c 'plocate PLOCATE_TEST_FILE' | grep -q PLOCATE_TEST_FILE
+! su testuser -c 'plocate PLOCATE_INVISIBLE_TEST_FILE' | grep -q PLOCATE_INVISIBLE_TEST_FILE
+
+# Make the test file visible, and we should see it at once.
+chmod 0755 $AUTOPKGTEST_TMP/secret-dir
+su testuser -c 'plocate PLOCATE_INVISIBLE_TEST_FILE' | grep -q PLOCATE_INVISIBLE_TEST_FILE
+
+userdel testuser

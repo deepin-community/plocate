@@ -1,0 +1,52 @@
+#! /bin/sh
+
+set -e
+
+GROUP="plocate"
+
+if [ "$1" = "configure" ]; then
+    update-alternatives --install /usr/bin/locate locate /usr/bin/plocate 90 \
+	--slave /usr/share/man/man1/locate.1.gz locate.1.gz /usr/share/man/man1/plocate.1.gz \
+	--slave /usr/bin/updatedb updatedb /usr/sbin/updatedb.plocate \
+        --slave /usr/share/man/man8/updatedb.8.gz updatedb.8.gz /usr/share/man/man8/updatedb.plocate.8.gz
+
+    if ! getent group "$GROUP" > /dev/null 2>&1 ; then
+    	addgroup --system "$GROUP"
+    fi
+
+    # Versions before 1.1.0 used the mlocate group.
+    if dpkg --compare-versions "$2" lt-nl "1.1.0-1"; then
+    	dpkg-statoverride --remove /usr/bin/plocate
+    fi
+
+    if ! dpkg-statoverride --list /usr/bin/plocate >/dev/null 2>&1; then
+    	dpkg-statoverride --update --add root "$GROUP" 2755 /usr/bin/plocate 
+    fi
+
+    # Databases before 1.1.0-2 are usually incomplete. (See #976688.)
+    # A normal updatedb won't fix it, unfortunately, until /usr is next
+    # updated for some other reason. Since it never hit testing,
+    # this is the simplest fix.
+    if [ -f /var/lib/plocate/plocate.db ] && dpkg --compare-versions "$2" ge "1.1.0-1" && dpkg --compare-versions "$2" lt "1.1.1-2"; then
+        echo "Removing possibly-broken plocate.db from early 1.1.x version..."
+    	rm /var/lib/plocate/plocate.db
+    fi
+
+    # Moved in 1.1.0.
+    if [ -f /var/lib/mlocate/plocate.db ] && ! [ -f /var/lib/plocate/plocate.db ]; then
+        mv /var/lib/mlocate/plocate.db /var/lib/plocate/plocate.db
+        chgrp "$GROUP" /var/lib/plocate/plocate.db
+    fi
+
+    # Create plocate.db on first install, by converting from mlocate if it exists.
+    if ! [ -f /var/lib/plocate/plocate.db ] && [ -f /var/lib/mlocate/mlocate.db ]; then
+        set +e
+        echo "Creating initial plocate database..."
+        plocate-build /var/lib/mlocate/mlocate.db /var/lib/plocate/plocate.db
+        chgrp "$GROUP" /var/lib/plocate/plocate.db
+        set -e
+    fi
+fi
+
+
+#DEBHELPER#

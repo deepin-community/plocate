@@ -1,0 +1,10 @@
+#! /bin/sh
+  
+set -e
+
+if [ "$1" = "purge" ]; then
+    rm -rf "/var/lib/plocate"
+    dpkg-statoverride --remove /usr/bin/plocate || test $? -eq 2
+fi
+
+#DEBHELPER#

@@ -1,5 +1,373 @@
-template-repository (1.0-1) unstable; urgency=medium
+plocate (1.1.18-1) unstable; urgency=medium
 
-  * Initial release
+  * New upstream release.
 
- -- Tsic404 <liuheng@deepin.org>  Sat, 28 Jan 2023 13:46:49 +0800
+ -- Steinar H. Gunderson <sesse@debian.org>  Sat, 28 Jan 2023 21:46:26 +0100
+
+plocate (1.1.17-2) unstable; urgency=medium
+
+  * Adjust the autopkgtest to deal with the return value changes in 1.1.17.
+
+ -- Steinar H. Gunderson <sesse@debian.org>  Sat, 26 Nov 2022 10:34:45 +0100
+
+plocate (1.1.17-1) unstable; urgency=medium
+
+  * New upstream release.
+  * Add a dependency on adduser. (Closes: #1023371)
+  * Add fuse.gocryptfs to PRUNEFS. (Closes: #1021563)
+
+ -- Steinar H. Gunderson <sesse@debian.org>  Mon, 21 Nov 2022 18:27:45 +0100
+
+plocate (1.1.16-1) unstable; urgency=medium
+
+  * New upstream release.
+    * Makes updatedb skip over directories that can be opened but not
+      stat-ed. (Closes: #1011948)
+
+ -- Steinar H. Gunderson <sesse@debian.org>  Sat, 04 Jun 2022 15:18:42 +0200
+
+plocate (1.1.15-2) unstable; urgency=medium
+
+  * Pull in some changes from the Ubuntu packaging:
+    * Add /home/.ecryptfs and /var/lib/schroot to PRUNEPATHS.
+    * Add fuse.cryfs and fuse.encfs to PRUNEFS.
+    * Remove debian/source/include-binaries file.
+
+ -- Steinar H. Gunderson <sesse@debian.org>  Wed, 02 Mar 2022 20:52:02 +0100
+
+plocate (1.1.15-1) unstable; urgency=medium
+
+  * New upstream release.
+    * Improves updatedb handling of excluded filesystems that give errors
+      on stat() (e.g. if they are network filesystems that have failed).
+      (Closes: #1004083)
+
+ -- Steinar H. Gunderson <sesse@debian.org>  Mon, 31 Jan 2022 21:31:10 +0100
+
+plocate (1.1.14-1) unstable; urgency=medium
+
+  * New upstream release.
+    * Adds option --add-single-prunepath. (Closes: #999488)
+
+ -- Steinar H. Gunderson <sesse@debian.org>  Mon, 27 Dec 2021 11:13:31 +0100
+
+plocate (1.1.13-1) unstable; urgency=medium
+
+  * New upstream release.
+    * Fixes the database name in an error message. (Closes: #996735)
+
+ -- Steinar H. Gunderson <sesse@debian.org>  Sat, 06 Nov 2021 18:19:29 +0100
+
+plocate (1.1.12-1) unstable; urgency=medium
+
+  * New upstream release.
+    * Includes support for the -N/--literal option. (Closes: #995688)
+
+ -- Steinar H. Gunderson <sesse@debian.org>  Tue, 05 Oct 2021 23:07:13 +0200
+
+plocate (1.1.11-1) unstable; urgency=medium
+
+  * New upstream release.
+    * Fixes a crash with --existing and --regex (or very short patterns)
+      together. Reported by Michael Arndt. (Closes: #993684)
+
+ -- Steinar H. Gunderson <sesse@debian.org>  Sun, 05 Sep 2021 00:51:03 +0200
+
+plocate (1.1.10-3) unstable; urgency=medium
+
+  * In mlocate.postinst, purge the systemd timer and the statoverride
+    for /usr/bin/mlocate, similar to what would happen if the old package
+    got purged. Suggested by Sven Joachim. (Closes: #993529)
+
+ -- Steinar H. Gunderson <sesse@debian.org>  Sat, 04 Sep 2021 01:06:12 +0200
+
+plocate (1.1.10-2) unstable; urgency=medium
+
+  * Source-only upload to allow progressing to testing.
+
+ -- Steinar H. Gunderson <sesse@debian.org>  Wed, 25 Aug 2021 18:50:05 +0200
+
+plocate (1.1.10-1) unstable; urgency=medium
+
+  * New upstream release.
+    * Fixes build regression on non-systemd platforms. (Closes: #992746)
+
+ -- Steinar H. Gunderson <sesse@debian.org>  Mon, 23 Aug 2021 22:04:24 +0200
+
+plocate (1.1.9-2) unstable; urgency=medium
+
+  * Specify the package name (mlocate) explicitly in mlocate.maintscript,
+    so that it is not wrongly inferred to be mlocate:all (since mlocate
+    changes from Arch: any to Arch: all on upgrade to the dummy mlocate
+    package from plocate). (Closes: #992540)
+  * In mlocate.postinst, remove mlocate.db and /var/lib/mlocate.
+
+ -- Steinar H. Gunderson <sesse@debian.org>  Thu, 19 Aug 2021 23:19:53 +0200
+
+plocate (1.1.9-1) unstable; urgency=medium
+
+  * New upstream release.
+  * Remove the upgrade-from-mlocate test, as it cannot pass without
+    a real (non-transitional) mlocate package.
+
+ -- Steinar H. Gunderson <sesse@debian.org>  Wed, 18 Aug 2021 22:18:21 +0200
+
+plocate (1.1.8-3) unstable; urgency=medium
+
+  * Make mlocate a dummy transitional package into plocate, in cooperation
+    with mlocate maintainer Tollef Fog Heen.
+    * Make Breaks and Conflicts versioned, so as to not conflict
+      with the transitional package.
+    * Add a debian/tmp/* line to plocate.install.
+    * Remove mlocate.db and /var/lib/mlocate in mlocate.postinst.
+    * Remove /etc/cron.daily/mlocate in mlocate.maintscript.
+
+ -- Steinar H. Gunderson <sesse@debian.org>  Sun, 15 Aug 2021 12:34:19 +0200
+
+plocate (1.1.8-2) unstable; urgency=medium
+
+  * Add fuse.rclone to the default PRUNEFS in updatedb.conf.
+    Suggested by Stefan Breunig. (Closes: #989520)
+
+ -- Steinar H. Gunderson <sesse@debian.org>  Sat, 19 Jun 2021 17:35:31 +0200
+
+plocate (1.1.8-1) unstable; urgency=medium
+
+  * New upstream release.
+
+ -- Steinar H. Gunderson <sesse@debian.org>  Sat, 12 Jun 2021 14:27:53 +0200
+
+plocate (1.1.7-3) unstable; urgency=medium
+
+  * Update the upgrade-from-mlocate autopkgtest to account for the new
+    lack of coinstallability between mlocate and plocate. (Closes: #988604)
+
+ -- Steinar H. Gunderson <sesse@debian.org>  Mon, 17 May 2021 12:26:00 +0200
+
+plocate (1.1.7-2) unstable; urgency=medium
+
+  * Add Breaks: mlocate, since evidently, sharing the updatedb.conf file
+    does not work all that well in the face of uninstalls.
+    (Closes: #976321)
+
+ -- Steinar H. Gunderson <sesse@debian.org>  Sat, 15 May 2021 14:54:15 +0200
+
+plocate (1.1.7-1) unstable; urgency=medium
+
+  * New upstream release.
+
+ -- Steinar H. Gunderson <sesse@debian.org>  Wed, 07 Apr 2021 09:36:06 +0200
+
+plocate (1.1.6-3) unstable; urgency=medium
+
+  * Add missing @ dependency in one of the autopkgtests, causing it to fail.
+
+ -- Steinar H. Gunderson <sesse@debian.org>  Sat, 03 Apr 2021 14:54:57 +0200
+
+plocate (1.1.6-2) unstable; urgency=medium
+
+  * Add a few autopkgtests, to test updatedb behavior and upgrades from mlocate.
+
+ -- Steinar H. Gunderson <sesse@debian.org>  Fri, 02 Apr 2021 19:21:48 +0200
+
+plocate (1.1.6-1) unstable; urgency=medium
+
+  * New upstream release.
+    * Fix updatedb on certain filesystems, in particular XFS V4.
+      (Closes: #984698)
+    * Randomize the time updatedb fires under systemd. Suggested by Calum McConnell.
+      (Closes: #985766)
+
+ -- Steinar H. Gunderson <sesse@debian.org>  Fri, 02 Apr 2021 13:14:46 +0200
+
+plocate (1.1.5-1) unstable; urgency=medium
+
+  * New upstream release.
+    * updatedb now works if /var is on a system that does not support O_TMPFILE,
+      such as overlayfs. (Closes: #983002)
+  * Suggest powermgmt-base and nocache for non-systemd systems, since the cron job
+    is capable of using on_ac_power and nocache if they are installed.
+    (Closes: #983426)
+
+ -- Steinar H. Gunderson <sesse@debian.org>  Wed, 24 Feb 2021 19:15:32 +0100
+
+plocate (1.1.4-1) unstable; urgency=medium
+
+  * New upstream release.
+
+ -- Steinar H. Gunderson <sesse@debian.org>  Sun, 14 Feb 2021 10:58:26 +0100
+
+plocate (1.1.3-1) unstable; urgency=medium
+
+  * New upstream release.
+  * Make debian/cron.daily/plocate executable. (Closes: #976427)
+
+ -- Steinar H. Gunderson <sesse@debian.org>  Sat, 19 Dec 2020 01:20:18 +0100
+
+plocate (1.1.2-2) unstable; urgency=medium
+
+  * Depend on systemd for Linux platforms only; fixes buildability on
+    Hurd and kFreeBSD.
+
+ -- Steinar H. Gunderson <sesse@debian.org>  Thu, 10 Dec 2020 19:35:50 +0100
+
+plocate (1.1.2-1) unstable; urgency=medium
+
+  * New upstream release.
+    * Fixes open file limitations when running from cron (as root).
+      (Closes: #976843)
+    * Obsoletes no-protect-system.diff.
+    * Replaces rename-updatedb.diff with a parameter given to Meson.
+
+ -- Steinar H. Gunderson <sesse@debian.org>  Thu, 10 Dec 2020 00:42:05 +0100
+
+plocate (1.1.1-2) unstable; urgency=medium
+
+  * Install a new /etc/cron.daily/plocate, for non-systemd users; 
+    based on work by GSR, which based it on the mlocate cron job.
+    (Closes: #976427)
+  * no-protect-system.diff: New patch, turns off ProtectSystem=
+    for the updatedb timer, as it creates bind mounts that cause files in
+    /usr to get ignored. (Closes: #976688)
+
+ -- Steinar H. Gunderson <sesse@debian.org>  Mon, 07 Dec 2020 10:11:06 +0100
+
+plocate (1.1.1-1) unstable; urgency=medium
+
+  * New upstream release.
+
+ -- Steinar H. Gunderson <sesse@debian.org>  Sat, 05 Dec 2020 10:54:02 +0100
+
+plocate (1.1.0-4) unstable; urgency=medium
+
+  * Remove /etc/cron.d/plocate on upgrades, as it has been replaced with
+    native updatedb from a systemd timer. 
+
+ -- Steinar H. Gunderson <sesse@debian.org>  Fri, 04 Dec 2020 09:51:26 +0100
+
+plocate (1.1.0-3) unstable; urgency=medium
+
+  * rename-updatedb.diff: Rename updatedb in the systemd unit, to unbreak it.
+
+ -- Steinar H. Gunderson <sesse@debian.org>  Thu, 03 Dec 2020 09:59:08 +0100
+
+plocate (1.1.0-2) unstable; urgency=medium
+
+  * Fix lintian warning: Do use explicit path for plocate-build in postinst.
+  * Rename updatedb.8 to updatedb.plocate.8, and include it as a slave of the
+    locate alternative.
+  * Add build-dependency on systemd, to get systemdsystemunitdir.
+
+ -- Steinar H. Gunderson <sesse@debian.org>  Thu, 03 Dec 2020 00:41:14 +0100
+
+plocate (1.1.0-1) unstable; urgency=medium
+
+  * New upstream release.
+    * Remove dependency on mlocate.
+    * Ship /etc/updatedb.conf (copied from mlocate).
+      * Add Replaces: mlocate to shared updatedb.conf.
+    * No longer ship /etc/cron.daily/plocate, as there is a native updatedb.
+      * Ship systemd timer for updatedb.
+      * Remove obsolete patch fix-cron-after-removal.diff.
+    * Change group from mlocate to plocate.
+    * Move plocate.db from /var/lib/mlocate to /var/lib/plocate if it exists.
+    * rename-updatedb.diff: New patch, change updatedb to updatedb.plocate.
+      * Stop shipping updatedb script that calls mlocate's updatedb.
+    * Update debian/copyright with new files that are GPLv2-only
+      (from mlocate's updatedb).
+
+ -- Steinar H. Gunderson <sesse@debian.org>  Sun, 29 Nov 2020 18:55:38 +0100
+
+plocate (1.0.7-1) unstable; urgency=medium
+
+  * New upstream release.
+
+ -- Steinar H. Gunderson <sesse@debian.org>  Sat, 31 Oct 2020 23:05:47 +0100
+
+plocate (1.0.6-2) unstable; urgency=medium
+
+  * Don't fail postinst if plocate-build fails.
+  * Update package description.
+
+ -- Steinar H. Gunderson <sesse@debian.org>  Fri, 30 Oct 2020 01:08:17 +0100
+
+plocate (1.0.6-1) unstable; urgency=medium
+
+  * New upstream release.
+    - Obsoletes meson-function-multiversioning.diff.
+  * On initial install, create plocate.db from postinst.
+  * Remove plocate.db on purge (in postrm).
+  * Remove locate alternative when package is removed (in prerm).
+
+ -- Steinar H. Gunderson <sesse@debian.org>  Fri, 30 Oct 2020 00:07:47 +0100
+
+plocate (1.0.5-3) unstable; urgency=medium
+
+  * fix-cron-after-removal.diff: New patch, make /etc/cron.daily/plocate
+    exit cleanly if the package has been removed. Makes the package
+    piuparts-clean.
+
+ -- Steinar H. Gunderson <sesse@debian.org>  Sat, 17 Oct 2020 14:46:15 +0200
+
+plocate (1.0.5-2) unstable; urgency=medium
+
+  * meson-function-multiversioning.diff: New patch, makes the configure-time
+    test for function multiversioning stricter (it used to give false positives).
+
+ -- Steinar H. Gunderson <sesse@debian.org>  Sat, 17 Oct 2020 13:59:37 +0200
+
+plocate (1.0.5-1) unstable; urgency=medium
+
+  * New upstream release.
+    * Obsoletes all patches in debian/patches/.
+  * Add a rudimentary updatedb.plocate (takes no options), installed as an
+    alternative for updatedb.
+
+ -- Steinar H. Gunderson <sesse@debian.org>  Sat, 17 Oct 2020 11:43:28 +0200
+
+plocate (1.0.4-4) unstable; urgency=medium
+
+  * fix-iwyu-include.diff: New patch from upstream, fixes a wrong #include
+    in serializer.h, breaking kfreebsd. 
+
+ -- Steinar H. Gunderson <sesse@debian.org>  Fri, 16 Oct 2020 10:02:51 +0200
+
+plocate (1.0.4-3) unstable; urgency=medium
+
+  * add-latomic.diff: Fix detection of -latomic (it doesn't come from
+    pkg-config). 
+
+ -- Steinar H. Gunderson <sesse@debian.org>  Fri, 16 Oct 2020 09:59:53 +0200
+
+plocate (1.0.4-2) unstable; urgency=medium
+
+  * add-latomic.diff: New patch from upstream, adds -latomic if it exists.
+    Should fix build issues on armel and sh4.
+  * Make the liburing-dev build-dependency conditional on linux-any.
+
+ -- Steinar H. Gunderson <sesse@debian.org>  Fri, 16 Oct 2020 09:29:30 +0200
+
+plocate (1.0.4-1) unstable; urgency=medium
+
+  * New upstream release.
+
+ -- Steinar H. Gunderson <sesse@debian.org>  Fri, 16 Oct 2020 00:51:32 +0200
+
+plocate (1.0.3-1) unstable; urgency=medium
+
+  * New upstream release.
+
+ -- Steinar H. Gunderson <sesse@debian.org>  Thu, 15 Oct 2020 00:21:06 +0200
+
+plocate (1.0.2-1) unstable; urgency=medium
+
+  * New upstream release.
+    * Obsoletes all patches in debian/patches/.
+
+ -- Steinar H. Gunderson <sesse@debian.org>  Mon, 12 Oct 2020 09:57:43 +0200
+
+plocate (1.0.0-1) unstable; urgency=medium
+
+  * Initial release.
+
+ -- Steinar H. Gunderson <sesse@debian.org>  Sun, 11 Oct 2020 21:24:13 +0200
