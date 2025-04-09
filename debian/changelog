@@ -1,3 +1,62 @@
+plocate (1.1.23-1) unstable; urgency=medium
+
+  * New upstream release.
+
+ -- Steinar H. Gunderson <sesse@debian.org>  Sun, 24 Nov 2024 23:16:08 +0100
+
+plocate (1.1.22-3) unstable; urgency=medium
+
+  * Mark the package as Multi-Arch: foreign. (Closes: #1070214)
+
+ -- Steinar H. Gunderson <sesse@debian.org>  Thu, 02 May 2024 19:48:34 +0200
+
+plocate (1.1.22-2) unstable; urgency=medium
+
+  * Build-depend on systemd-dev instead of systemd [linux-any].
+    (Closes: #1060554)
+
+ -- Steinar H. Gunderson <sesse@debian.org>  Mon, 29 Jan 2024 22:16:11 +0100
+
+plocate (1.1.22-1) unstable; urgency=high
+
+  * New upstream release.
+    * urgency=high because it fixes an updatedb pruning bug that has
+      already reached testing.
+
+ -- Steinar H. Gunderson <sesse@debian.org>  Fri, 12 Jan 2024 16:19:44 +0100
+
+plocate (1.1.21-1) unstable; urgency=medium
+
+  * New upstream release.
+    * Improves interactions between pruning and bind mount detection
+      logic. (Closes: #1055450)
+
+ -- Steinar H. Gunderson <sesse@debian.org>  Sat, 06 Jan 2024 17:06:43 +0100
+
+plocate (1.1.20-1) unstable; urgency=medium
+
+  * New upstream release.
+
+ -- Steinar H. Gunderson <sesse@debian.org>  Sun, 31 Dec 2023 14:30:24 +0100
+
+plocate (1.1.19-2) unstable; urgency=medium
+
+  * Remove compatibility cruft for upgrading from pre-bullseye.
+    * Remove the mlocate transitional package, opening up the possibility
+      for others to maintain mlocate. (Closes: #1040300)
+    * Remove postinst code to transition from the mlocate group.
+    * Remove postinst code to convert the mlocate database.
+    * Remove Replaces/Breaks on old mlocate packages.
+    * Remove now-obsolete debian/tmp/* line from plocate.install.
+
+ -- Steinar H. Gunderson <sesse@debian.org>  Tue, 04 Jul 2023 18:24:02 +0200
+
+plocate (1.1.19-1) unstable; urgency=medium
+
+  * New upstream release.
+
+ -- Steinar H. Gunderson <sesse@debian.org>  Fri, 09 Jun 2023 09:36:32 +0200
+
 plocate (1.1.18-1) unstable; urgency=medium
 
   * New upstream release.

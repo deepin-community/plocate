@@ -1,1 +1,0 @@
-rm_conffile /etc/cron.daily/mlocate 1.1.9~ mlocate
