@@ -68,10 +68,6 @@ bool conf_verbose; /* = false; */
 /* Configuration representation for the database configuration block */
 string conf_block;
 
-/* Absolute (not necessarily canonical) path to the config file */
-string conf_configfile_str;
-const char *conf_configfile;
-
 int conf_block_size = 32;
 bool use_debug = false;
 
@@ -327,7 +323,7 @@ eof:
 static void
 help(void)
 {
-	printf(_("Usage: updatedb [OPTION]...\n"
+	printf("Usage: updatedb [OPTION]...\n"
 	         "Update a plocate database.\n"
 	         "\n"
 	         "  -f, --add-prunefs FS           omit also FS (space-separated)\n"
@@ -356,10 +352,10 @@ help(void)
 	         "  -V, --version                  print version information\n"
 	         "\n"
 	         "The configuration defaults to values read from\n"
-	         "`%s'.\n"),
+	         "`%s'.\n",
 	       DBFILE, UPDATEDB_CONF);
-	printf(_("\n"
-	         "Report bugs to %s.\n"),
+	printf("\n"
+	       "Report bugs to %s.\n",
 	       PACKAGE_BUGREPORT);
 }
 
@@ -493,11 +489,11 @@ parse_arguments(int argc, char *argv[])
 
 		case 'V':
 			puts("updatedb (" PACKAGE_NAME ") " PACKAGE_VERSION);
-			puts(_("Copyright (C) 2007 Red Hat, Inc. All rights reserved.\n"
-			       "This software is distributed under the GPL v.2.\n"
-			       "\n"
-			       "This program is provided with NO WARRANTY, to the extent "
-			       "permitted by law."));
+			puts("Copyright (C) 2007 Red Hat, Inc. All rights reserved.\n"
+			     "This software is distributed under the GPL v.2.\n"
+			     "\n"
+			     "This program is provided with NO WARRANTY, to the extent "
+			     "permitted by law.");
 			exit(EXIT_SUCCESS);
 
 		case 'e':
@@ -642,7 +638,6 @@ void conf_prepare(int argc, char *argv[])
 	string_list_dir_path_sort(&conf_prunepaths);
 
 	if (conf_debug_pruning) {
-		/* This is debuging output, don't mark anything for translation */
 		fprintf(stderr, "conf_block:\n");
 		for (char c : conf_block) {
 			if (isascii((unsigned char)c) && isprint((unsigned char)c) && c != '\\')

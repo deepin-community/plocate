@@ -1,3 +1,2 @@
 debian/updatedb.conf /etc
 debian/cron.daily/plocate /etc/cron.daily
-debian/tmp/*

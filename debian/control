@@ -3,7 +3,7 @@ Section: utils
 Priority: optional
 Maintainer: Steinar H. Gunderson <sesse@debian.org>
 # liburing-dev is technically optional, but strongly recommended.
-Build-Depends: debhelper-compat (= 13), liburing-dev [linux-any], libzstd-dev, meson, ninja-build, pkg-config, systemd [linux-any]
+Build-Depends: debhelper-compat (= 13), liburing-dev [linux-any], libzstd-dev, meson, ninja-build, pkg-config, systemd-dev
 Standards-Version: 4.5.0
 Homepage: https://plocate.sesse.net/
 Rules-Requires-Root: no
@@ -12,17 +12,8 @@ Package: plocate
 Architecture: any
 Depends: ${shlibs:Depends}, ${misc:Depends}, adduser
 Suggests: systemd-sysv | powermgmt-base, systemd-sysv | nocache
-Replaces: mlocate (<< 1.1.7)
-Breaks: mlocate (<< 1.1.7)
+Multi-Arch: foreign
 Description: much faster locate
  plocate is a locate(1) based on posting lists, giving much faster searches
  on a much smaller index. It is a drop-in replacement for mlocate in nearly
  all aspects, and is fast on SSDs and non-SSDs alike.
- 
-Package: mlocate
-Architecture: all
-Depends: plocate, ${misc:Depends}
-Description: transitional dummy package
- This is a transitional dummy package to plocate, it can be safely removed.
- Command-line options should generally be the same, so you can continue to
- use the locate(1) command as before with no ill effects.

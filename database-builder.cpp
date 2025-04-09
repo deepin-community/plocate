@@ -531,7 +531,15 @@ DatabaseBuilder::DatabaseBuilder(const char *outfile, gid_t owner, int block_siz
 	hdr.max_version = 2;
 	hdr.filename_index_offset_bytes = -1;
 	hdr.zstd_dictionary_length_bytes = -1;
+	hdr.zstd_dictionary_offset_bytes = -1; // Dictionary offset is not known yet.
 	hdr.check_visibility = check_visibility;
+	hdr.directory_data_length_bytes = 0;
+	hdr.directory_data_offset_bytes = 0;
+	hdr.next_zstd_dictionary_length_bytes = 0;
+	hdr.next_zstd_dictionary_offset_bytes = 0;
+	hdr.conf_block_length_bytes = 0;
+	hdr.conf_block_offset_bytes = 0;
+
 	fwrite(&hdr, sizeof(hdr), 1, outfp);
 
 	if (dictionary.empty()) {
@@ -543,13 +551,6 @@ DatabaseBuilder::DatabaseBuilder(const char *outfile, gid_t owner, int block_siz
 		hdr.zstd_dictionary_length_bytes = dictionary.size();
 		cdict = ZSTD_createCDict(dictionary.data(), dictionary.size(), /*level=*/6);
 	}
-
-	hdr.directory_data_length_bytes = 0;
-	hdr.directory_data_offset_bytes = 0;
-	hdr.next_zstd_dictionary_length_bytes = 0;
-	hdr.next_zstd_dictionary_offset_bytes = 0;
-	hdr.conf_block_length_bytes = 0;
-	hdr.conf_block_offset_bytes = 0;
 }
 
 DatabaseReceiver *DatabaseBuilder::start_corpus(bool store_dir_times)
@@ -682,6 +683,10 @@ void DatabaseBuilder::finish_corpus()
 	hdr.version = 1;
 	fseek(outfp, 0, SEEK_SET);
 	fwrite(&hdr, sizeof(hdr), 1, outfp);
+
+	// This is needed on systems that simulate linkat() by copying
+	// the contents of the file instead of linking.
+	fflush(outfp);
 
 	if (!temp_filename.empty()) {
 		if (rename(temp_filename.c_str(), outfile.c_str()) == -1) {
